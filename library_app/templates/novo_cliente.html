@@ -1,0 +1,55 @@
+{% extends 'base_generic.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-3">Novo Cliente</h2>
+    <form method="post" class="needs-validation" novalidate>
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="nome" class="form-label">Nome:</label>
+            <input type="text" class="form-control" name="nome" id="nome" required>
+            <div class="invalid-feedback">
+                Por favor, digite o nome do cliente.
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label for="email" class="form-label">Email:</label>
+            <input type="email" class="form-control" name="email" id="email" required>
+            <div class="invalid-feedback">
+                Por favor, digite um endereço de email válido.
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label for="endereco" class="form-label">Endereço:</label>
+            <textarea class="form-control" name="endereco" id="endereco" required></textarea>
+            <div class="invalid-feedback">
+                Por favor, digite o endereço do cliente.
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Cadastrar Cliente</button>
+    </form>
+</div>
+<script>
+
+(function () {
+  'use strict'
+
+  var forms = document.querySelectorAll('.needs-validation')
+
+  Array.prototype.slice.call(forms)
+    .forEach(function (form) {
+      form.addEventListener('submit', function (event) {
+        if (!form.checkValidity()) {
+          event.preventDefault()
+          event.stopPropagation()
+        }
+
+        form.classList.add('was-validated')
+      }, false)
+    })
+})()
+</script>
+{% endblock %}

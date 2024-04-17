@@ -1,0 +1,47 @@
+{% extends 'base_generic.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4">Cadastrar Livro</h2>
+    <form method="post" class="needs-validation" novalidate>
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="nome" class="form-label">Nome do Livro:</label>
+            <input type="text" class="form-control" name="nome" id="nome" required>
+            <div class="invalid-feedback">
+                Por favor, insira o nome do livro.
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label for="quantidade" class="form-label">Quantidade em Estoque:</label>
+            <input type="number" class="form-control" name="quantidade" id="quantidade" required min="0">
+            <div class="invalid-feedback">
+                Por favor, insira a quantidade em estoque (zero ou mais).
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Cadastrar Livro</button>
+    </form>
+</div>
+<script>
+    
+(function () {
+  'use strict'
+
+  var forms = document.querySelectorAll('.needs-validation')
+
+  Array.prototype.slice.call(forms)
+    .forEach(function (form) {
+      form.addEventListener('submit', function (event) {
+        if (!form.checkValidity()) {
+          event.preventDefault()
+          event.stopPropagation()
+        }
+
+        form.classList.add('was-validated')
+      }, false)
+    })
+})()
+</script>
+{% endblock %}

@@ -1,0 +1,40 @@
+{% extends 'base_generic.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4">Lista de Clientes</h2>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="table-responsive">
+                <table class="table">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Nome</th>
+                            <th>Email</th>
+                            <th>Endereço</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for cliente in clientes %}
+                        <tr>
+                            <td>{{ cliente.nome }}</td>
+                            <td>{{ cliente.email }}</td>
+                            <td>{{ cliente.endereco }}</td>
+                            <td>
+                                <a href="{% url 'editar_cliente' cliente.id %}" class="btn btn-sm btn-warning">Editar</a>
+                                <a href="{% url 'remover_cliente' cliente.id %}" class="btn btn-sm btn-danger" onclick="return confirm('Tem certeza que deseja remover este cliente?');">Remover</a>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="4" class="text-center">Nenhum cliente cadastrado.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

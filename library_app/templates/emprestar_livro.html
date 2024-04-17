@@ -1,0 +1,44 @@
+{% extends 'base_generic.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-3">Emprestar Livro</h2>
+    <div class="table-responsive">
+        <table class="table">
+            <thead class="table-light">
+                <tr>
+                    <th>Nome</th>
+                    <th>Email</th>
+                    <th>Livro</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for cliente in clientes %}
+                <tr>
+                    <td>{{ cliente.nome }}</td>
+                    <td>{{ cliente.email }}</td>
+                    <td>
+                        <form action="{% url 'realizar_emprestimo' cliente.id %}" method="post">
+                            {% csrf_token %}
+                            <div class="input-group mb-3">
+                                <select class="form-select" name="livro" required>
+                                    {% for livro in livros %}
+                                    <option value="{{ livro.id }}">{{ livro.nome }}</option>
+                                    {% endfor %}
+                                </select>
+                                <input type="date" class="form-control" name="data_devolucao" required>
+                                <button class="btn btn-primary" type="submit">Emprestar</button>
+                            </div>
+                        </form>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="3" class="text-center">Nenhum cliente encontrado.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

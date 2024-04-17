@@ -1,0 +1,33 @@
+{% extends 'base_generic.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-3">Lista de Livros</h2>
+    <div class="table-responsive">
+        <table class="table">
+            <thead class="table-dark">
+                <tr>
+                    <th>Nome do Livro</th>
+                    <th>Quantidade em Estoque</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for livro in livros %}
+                <tr>
+                    <td>{{ livro.nome }}</td>
+                    <td>{{ livro.quantidade }}</td>
+                    <td>
+                        <a href="{% url 'remover_livro' livro.id %}" class="btn btn-danger btn-sm" onclick="return confirm('Você tem certeza que deseja remover este livro?');">Remover</a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="3" class="text-center">Nenhum livro cadastrado.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

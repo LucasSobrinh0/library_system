@@ -1,0 +1,39 @@
+{% extends 'base_generic.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4">Editar Data de Devolução do Empréstimo</h2>
+    <form method="post" class="needs-validation" novalidate>
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="data_devolucao" class="form-label">Nova Data de Devolução:</label>
+            <input type="date" class="form-control" name="data_devolucao" id="data_devolucao" 
+                   value="{{ emprestimo.data_devolucao|date:'Y-m-d' }}" 
+                   min="{{ emprestimo.data_emprestimo|date:'Y-m-d' }}" required>
+            <div class="invalid-feedback">
+                Por favor, escolha uma data válida (após a data de empréstimo).
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+    </form>
+</div>
+<script>
+(function () {
+  'use strict'
+
+  var forms = document.querySelectorAll('.needs-validation')
+
+  Array.prototype.slice.call(forms)
+    .forEach(function (form) {
+      form.addEventListener('submit', function (event) {
+        if (!form.checkValidity()) {
+          event.preventDefault()
+          event.stopPropagation()
+        }
+
+        form.classList.add('was-validated')
+      }, false)
+    })
+})()
+</script>
+{% endblock %}

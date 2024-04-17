@@ -1,0 +1,38 @@
+{% extends 'base_generic.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-3">Controle de Empréstimos</h2>
+    <div class="table-responsive">
+        <table class="table">
+            <thead class="table-dark">
+                <tr>
+                    <th>Cliente</th>
+                    <th>Livro</th>
+                    <th>Data de Empréstimo</th>
+                    <th>Data de Devolução</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for emprestimo in emprestimos %}
+                <tr>
+                    <td>{{ emprestimo.cliente.nome }}</td>
+                    <td>{{ emprestimo.livro.nome }}</td>
+                    <td>{{ emprestimo.data_emprestimo|date:"Y-m-d" }}</td>
+                    <td>{{ emprestimo.data_devolucao|date:"Y-m-d" }}</td>
+                    <td>
+                        <a href="{% url 'editar_emprestimo' emprestimo.id %}" class="btn btn-warning btn-sm">Editar</a>
+                        <a href="{% url 'remover_emprestimo' emprestimo.id %}" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to remove this loan?');">Remover</a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="5" class="text-center">Nenhum empréstimo encontrado.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
