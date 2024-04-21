@@ -32,7 +32,12 @@ python manage.py migrate
 
 pip install -r requirements.txt
 
-4. Rode o servidor:
+
+4. Crie um super usuário para usar a aplicação:
+
+python manage.py createsuperuser
+
+5. Rode o servidor:
 
 python manage.py runserver
 
