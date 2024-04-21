@@ -25,6 +25,7 @@ https://github.com/LucasSobrinh0/library_system
 2. Crie o banco de dados:
 
 python manage.py makemigrations
+
 python manage.py migrate
 
 3. Instale as dependências:
