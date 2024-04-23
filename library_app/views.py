@@ -1,6 +1,5 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
-from .models import Cliente
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Cliente, Livro, Emprestimo
@@ -8,6 +7,8 @@ from django.http import HttpResponse
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required, user_passes_test
 import datetime
+import pandas as pd
+import csv
 
 def login_view(request):
     if request.method == 'POST':
@@ -128,3 +129,103 @@ def remover_livro(request, id):
     livro = get_object_or_404(Livro, id=id)
     livro.delete()
     return redirect('lista_livros')
+
+@login_required
+def exportar_clientes_csv(request):
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="clientes.csv"'
+
+    writer = csv.writer(response)
+    writer.writerow(['Nome', 'Email', 'Endereço'])
+
+    clientes = Cliente.objects.all()
+    for cliente in clientes:
+        writer.writerow([cliente.nome, cliente.email, cliente.endereco])
+
+    return response
+
+
+@login_required
+def exportar_clientes_excel(request):
+    # Criar um DataFrame pandas
+    data = list(Cliente.objects.all().values("nome", "email", "endereco"))
+    df = pd.DataFrame(data)
+
+    # Criar uma resposta do tipo Excel
+    response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+    response['Content-Disposition'] = 'attachment; filename="clientes.xlsx"'
+
+    # Escrever o DataFrame para um arquivo Excel
+    with pd.ExcelWriter(response) as writer:
+        df.to_excel(writer, index=False, sheet_name='Clientes')
+
+    return response
+
+@login_required
+def exportar_livros_csv(request):
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="estoque_livros.csv"'
+
+    writer = csv.writer(response)
+    writer.writerow(['Nome', 'Quantidade'])
+
+    livros = Livro.objects.all()
+    for livro in livros:
+        writer.writerow([livro.nome, livro.quantidade])
+
+    return response
+
+@login_required
+def exportar_livros_excel(request):
+    data = list(Livro.objects.all().values('nome', 'quantidade'))
+    df = pd.DataFrame(data)
+
+    response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+    response['Content-Disposition'] = 'attachment; filename="estoque_livros.xlsx"'
+
+    with pd.ExcelWriter(response) as writer:
+        df.to_excel(writer, index=False, sheet_name='estoque_livros')
+
+    return response
+
+@login_required
+def exportar_emprestimos_csv(request):
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="lista_de_emprestimos.csv"'
+
+    writer = csv.writer(response)
+    writer.writerow(['Cliente', 'Livro', 'Data Emprestimo', 'Data devolucao'])
+
+    emprestimos = Emprestimo.objects.all()
+    for emprestimo in emprestimos:
+        writer.writerow([emprestimo.cliente, emprestimo.livro, emprestimo.data_emprestimo, emprestimo.data_devolucao])
+
+    return response
+
+@login_required
+def exportar_emprestimos_excel(request):
+    # Buscando empréstimos e relacionando com Cliente e Livro para acesso direto aos campos necessários
+    emprestimos = Emprestimo.objects.select_related('cliente', 'livro')
+
+    # Preparando os dados para exportação
+    data = [{
+        'Cliente': emp.cliente.nome,
+        'Livro': emp.livro.nome,
+        'Data de Empréstimo': emp.data_emprestimo.strftime('%Y-%m-%d %H:%M'),  # Formatando data e hora
+        'Data de Devolução': emp.data_devolucao.strftime('%Y-%m-%d %H:%M')
+    } for emp in emprestimos]
+
+    # Criando DataFrame do pandas
+    df = pd.DataFrame(data)
+
+    # Configurando a resposta HTTP para formato Excel
+    response = HttpResponse(
+        content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        headers={'Content-Disposition': 'attachment; filename="lista_de_emprestimos.xlsx"'},
+    )
+
+    # Escrevendo o DataFrame para o arquivo Excel
+    with pd.ExcelWriter(response) as writer:
+        df.to_excel(writer, index=False, sheet_name='Lista de Empréstimos')
+
+    return response

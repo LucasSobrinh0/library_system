@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import login_view, logout_view, clientes, novo_cliente, editar_cliente, remover_cliente, cadastrar_livro, lista_livros, emprestar_livro, realizar_emprestimo, controle_emprestimos, editar_emprestimo, remover_emprestimo, remover_livro
+from .views import login_view, logout_view, clientes, novo_cliente, editar_cliente, remover_cliente, cadastrar_livro, lista_livros, emprestar_livro, realizar_emprestimo, controle_emprestimos, editar_emprestimo, remover_emprestimo, remover_livro, exportar_clientes_csv, exportar_clientes_excel, exportar_livros_csv, exportar_livros_excel, exportar_emprestimos_csv, exportar_emprestimos_excel
 
 urlpatterns = [
     path('login/', login_view, name='login'),
@@ -16,4 +16,10 @@ urlpatterns = [
     path('emprestimo/editar/<int:emprestimo_id>/', editar_emprestimo, name='editar_emprestimo'),
     path('emprestimo/remover/<int:emprestimo_id>/', remover_emprestimo, name='remover_emprestimo'),
     path('livro/remover/<int:id>/', remover_livro, name='remover_livro'),
+    path('clientes/export/csv/', exportar_clientes_csv, name='exportar_clientes_csv'),
+    path('clientes/export/excel/', exportar_clientes_excel, name='exportar_clientes_excel'),
+    path('livros/export/csv/', exportar_livros_csv, name='exportar_livros_csv'),
+    path('livros/export/excel/', exportar_livros_excel, name='exportar_livros_excel'),
+    path('emprestimo/expor/csv', exportar_emprestimos_csv, name='exportar_emprestimos_csv'),
+    path('emprestimo/expor/excel', exportar_emprestimos_excel, name='exportar_emprestimos_excel')
 ]

@@ -3,6 +3,10 @@
 {% block content %}
 <div class="container mt-5">
     <h2 class="mb-3">Controle de Empréstimos</h2>
+    <div class="col-12">
+        <a href="{% url 'exportar_emprestimos_csv' %}" class="btn btn-success mb-4">Exportar CSV</a>
+        <a href="{% url 'exportar_emprestimos_excel' %}" class="btn btn-success mb-4">Exportar Excel</a>
+    </div>
     <div class="table-responsive">
         <table class="table">
             <thead class="table-dark">
