@@ -18,20 +18,19 @@ Este projeto foi desenvolvido com o objetivo de aprimorar minhas habilidades em 
 
 ## Como usar
 
-1. Clone the repository:
+1. Clone o repositório:
 
 https://github.com/LucasSobrinh0/library_system
 
-2. Crie o banco de dados:
+2. Instale as dependências:
+
+pip install -r requirements.txt
+
+3. Instale as dependências:
 
 python manage.py makemigrations
 
 python manage.py migrate
-
-3. Instale as dependências:
-
-pip install -r requirements.txt
-
 
 4. Crie um super usuário para usar a aplicação:
 
