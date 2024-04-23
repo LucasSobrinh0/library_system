@@ -18,7 +18,7 @@ Este projeto foi desenvolvido com o objetivo de aprimorar minhas habilidades em 
 
 ## Como usar
 
-1. Clone the repository:
+1. Clone o repositório:
 
 https://github.com/LucasSobrinh0/library_system
 
