@@ -26,7 +26,7 @@ https://github.com/LucasSobrinh0/library_system
 
 pip install -r requirements.txt
 
-3. Instale as dependências:
+3. Crie o banco de dados:
 
 python manage.py makemigrations
 
